@@ -18,9 +18,15 @@ class Player extends FlxSprite
 
   private var bouncable:Bool = true;
 
+  private var horizontalFacing:Int = FlxObject.RIGHT;
+  private var verticalFacing:Int = FlxObject.UP;
+
   public function new(X:Float=0,Y:Float=100) {
     super(X,Y);
-    makeGraphic(12, 16, 0xffff00ff);
+    loadGraphic("assets/images/player.png", true, 16, 16);
+    animation.add("up", [0, 2], 15, false);
+    animation.add("down", [1], 15, false);
+    animation.play("down");
 
 //    acceleration.y = _gravity;
 
@@ -29,19 +35,26 @@ class Player extends FlxSprite
 
     velocity.y = 250;
 
-    setFacingFlip(FlxObject.LEFT, true, false);
-    setFacingFlip(FlxObject.RIGHT, false, false);
+    setFacingFlip(FlxObject.LEFT | FlxObject.UP, false, false);
+    setFacingFlip(FlxObject.RIGHT | FlxObject.UP, true, false);
+
+    setFacingFlip(FlxObject.LEFT | FlxObject.DOWN, false, true);
+    setFacingFlip(FlxObject.RIGHT | FlxObject.DOWN, true, true);
   }
 
   override public function update():Void {
     checkScreenBounds();
     processMovementInput();
+    facing = horizontalFacing | verticalFacing;
 
     super.update();
   }
 
   public function pingPong():Void {
-    if(bouncable) velocity.y = -velocity.y;
+    if(bouncable) {
+      animation.play("up");
+      velocity.y = -velocity.y;
+    }
     bouncable = false;
   }
 
@@ -49,10 +62,14 @@ class Player extends FlxSprite
     if(y >= FlxG.height) {
       y = -height;
       bouncable = true;
+      animation.play("down");
+      verticalFacing = FlxObject.UP;
     }
     if(y < -height) {
       y = FlxG.height;
       bouncable = true;
+      animation.play("down");
+      verticalFacing = FlxObject.DOWN;
     }
     if(x > FlxG.width) x = -width;
     if(x < -width) x = FlxG.width;
@@ -70,8 +87,10 @@ class Player extends FlxSprite
   function processMovementInput():Void {
     if(FlxG.keys.pressed.A || FlxG.keys.pressed.LEFT) {
       velocity.x = -SPEED;
+      horizontalFacing = FlxObject.LEFT;
     } else if(FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT) {
       velocity.x = SPEED;
+      horizontalFacing = FlxObject.RIGHT;
     } else {
       velocity.x = 0;
     }
