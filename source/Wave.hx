@@ -17,19 +17,19 @@ import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
 class Wave extends FlxGroup
 {
   var bounds:FlxObject;
-  var direction:Int;
+  var inverted:Bool;
 
   public static var SPEED:Float = 100;
 
-  public function new(direction:Int = 1) {
+  public function new(inverted:Bool = false) {
     super();
 
-    this.direction = direction;
+    this.inverted = inverted;
 
     bounds = new FlxObject();
     bounds.width = FlxG.width;
     bounds.height = FlxG.height;
-    bounds.velocity.x = SPEED * direction;
+    bounds.velocity.x = SPEED * (inverted ? 1 : -1);
     FlxG.state.add(bounds);
   } // new()
   
@@ -42,10 +42,12 @@ class Wave extends FlxGroup
       y -= g.map.getGidOwner(o.gid).tileHeight;
     }
 
-//    var projectile = new Projectile(-x - FlxG.width*windex, FlxG.height - y - 16, 1);
-//    add(projectile);
-
-    var projectile = new Projectile(FlxG.width + x + FlxG.width*windex, y, bounds);
-    add(projectile);
+    if (inverted) {
+      var projectile = new Projectile(-x - FlxG.width*windex, FlxG.height - y - 16, bounds);
+      add(projectile);
+    } else {
+      var projectile = new Projectile(FlxG.width + x + FlxG.width*windex, y, bounds);
+      add(projectile);
+    }
   }
 }
