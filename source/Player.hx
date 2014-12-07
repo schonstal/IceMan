@@ -8,7 +8,7 @@ import flixel.system.FlxSound;
 
 class Player extends FlxSprite
 {
-  public static var SPEED:Float = 200;
+  public static var SPEED:Float = 150;
   public static var JUMP_SPEED:Float = 400;
 
   private var _speed:Point;
@@ -27,7 +27,7 @@ class Player extends FlxSprite
 //    maxVelocity.y = 500;
     maxVelocity.x = SPEED;
 
-    velocity.y = 300;
+    velocity.y = 250;
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
@@ -68,9 +68,9 @@ class Player extends FlxSprite
   }
 
   function processMovementInput():Void {
-    if(FlxG.keys.pressed.A) {
+    if(FlxG.keys.pressed.A || FlxG.keys.pressed.LEFT) {
       velocity.x = -SPEED;
-    } else if(FlxG.keys.pressed.D) {
+    } else if(FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT) {
       velocity.x = SPEED;
     } else {
       velocity.x = 0;
