@@ -18,7 +18,7 @@ import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
 /**
  * Modified from Samuel Batista's example source
  */
-class Pattern extends TiledMap
+class PatternController extends TiledMap
 {
   // Do we reload objects?
   public var dirty:Bool = true;

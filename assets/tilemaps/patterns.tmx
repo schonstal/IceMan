@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="hazards" tilewidth="16" tileheight="16">
+  <image source="../../../LudumDare29/assets/images/tiles.png" width="320" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="10" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjZQJJCeXqZSQmg1D2SONi0sGuwAQBRKwD7
+  </data>
+ </layer>
+ <objectgroup name="Pattern 1" width="20" height="10">
+  <object x="0" y="96" width="16" height="16"/>
+  <object x="0" y="128" width="16" height="16"/>
+  <object x="160" y="96" width="16" height="16"/>
+  <object x="160" y="128" width="16" height="16"/>
+  <object x="240" y="0" width="16" height="16"/>
+  <object x="80" y="0" width="16" height="16"/>
+  <object x="240" y="32" width="16" height="16"/>
+  <object x="80" y="32" width="16" height="16"/>
+  <object x="160" y="112" width="16" height="16"/>
+  <object x="0" y="112" width="16" height="16"/>
+  <object x="240" y="16" width="16" height="16"/>
+  <object x="80" y="16" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Pattern 2" width="20" height="10">
+  <object x="0" y="112" width="16" height="16"/>
+  <object x="96" y="96" width="16" height="16"/>
+  <object x="192" y="112" width="16" height="16"/>
+  <object x="288" y="96" width="16" height="16"/>
+ </objectgroup>
+</map>

@@ -13,8 +13,8 @@ class PlayState extends FlxState
 {
   var middleBar:FlxSprite;
   var player:Player;
-  var pattern:Pattern;
   var indicator:FlxSprite;
+  var waveController:WaveController;
 
   override public function create():Void {
     var bg = new FlxSprite();
@@ -28,14 +28,13 @@ class PlayState extends FlxState
     indicator.makeGraphic(Std.int(player.width), Std.int(player.width), 0xffffff00);
     add(indicator);
 
-
     middleBar = new FlxSprite();
     middleBar.makeGraphic(FlxG.width, 6, 0xffffff00);
     middleBar.y = FlxG.height/2-3;
     add(middleBar);
 
-    pattern = new Pattern("assets/tilemaps/test.tmx");
-    add(pattern.enemies);
+    waveController = new WaveController();
+    add(waveController);
     
     super.create();
   }
@@ -49,7 +48,7 @@ class PlayState extends FlxState
       p.pingPong();
     });
 
-    FlxG.overlap(player, pattern.enemies, function(p:Player, e:FlxSprite) {
+    FlxG.overlap(player, waveController, function(p:Player, e:FlxSprite) {
       FlxG.camera.flash(0xff660000, 0.3);
     });
 
