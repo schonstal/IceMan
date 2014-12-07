@@ -53,6 +53,8 @@ class Player extends FlxSprite
     facing = horizontalFacing | verticalFacing;
 
     super.update();
+
+    Projectile.updatePulse();
   }
 
   public function pingPong():Void {
