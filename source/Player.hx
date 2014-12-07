@@ -27,6 +27,11 @@ class Player extends FlxSprite
     animation.add("up", [0, 2], 15, false);
     animation.add("down", [1], 15, false);
     animation.play("down");
+    width = 9;
+    offset.x = 3;
+
+    height = 14;
+    offset.y = 1;
 
 //    acceleration.y = _gravity;
 
