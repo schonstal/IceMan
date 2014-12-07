@@ -54,6 +54,14 @@ class Wave extends FlxGroup
     }
   }
 
+  public function loadMapObjects(groups:Array<TiledObjectGroup>):Void {
+    for (group in groups) {
+      for (o in group.objects) {
+        loadObject(o, group);
+      }
+    }
+  }
+
   public override function update():Void {
     super.update();
     checkEdges();
@@ -62,6 +70,11 @@ class Wave extends FlxGroup
   function checkEdges():Void {
     if (inverted ? bounds.x >= FlxG.width * 2 : bounds.x <= -FlxG.width * 2) {
       bounds.x = bounds.x + FlxG.width * 2 * (inverted ? -1 : 1);
+      initialize();
     }
+  }
+
+  // Reduce, reuse, recycle
+  function initialize():Void {
   }
 }

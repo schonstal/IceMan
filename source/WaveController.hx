@@ -38,12 +38,8 @@ class WaveController extends FlxTypedGroup<Wave>
       reverseWaves.push(reverseWave);
       add(reverseWave);
 
-      for (group in tiles.objectGroups) {
-        for (o in group.objects) {
-          wave.loadObject(o, group);
-          reverseWave.loadObject(o, group);
-        }
-      }
+      wave.loadMapObjects(tiles.objectGroups);
+      reverseWave.loadMapObjects(tiles.objectGroups);
     }
   } //loadObjects()
 
