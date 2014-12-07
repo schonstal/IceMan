@@ -29,21 +29,21 @@ class WaveController extends FlxTypedGroup<Wave>
   } // new()
   
   public function loadObjects() {
-    var index = 0;
-    for (group in tiles.objectGroups) {
-      var wave = new Wave(false, index);
+    for (i in (0...2)) {
+      var wave = new Wave(false, i);
       waves.push(wave);
       add(wave);
 
-      var reverseWave = new Wave(true, index);
+      var reverseWave = new Wave(true, i);
       reverseWaves.push(reverseWave);
       add(reverseWave);
 
-      for (o in group.objects) {
-        wave.loadObject(o, group);
-        reverseWave.loadObject(o, group);
+      for (group in tiles.objectGroups) {
+        for (o in group.objects) {
+          wave.loadObject(o, group);
+          reverseWave.loadObject(o, group);
+        }
       }
-      index++;
     }
   } //loadObjects()
 

@@ -56,10 +56,12 @@ class Wave extends FlxGroup
 
   public override function update():Void {
     super.update();
-    if (inverted) {
-      if (bounds.x >= FlxG.width * 2) bounds.x = bounds.x - FlxG.width * 2;
-    } else {
-      if (bounds.x <= -FlxG.width * 2) bounds.x = bounds.x + FlxG.width * 2;
+    checkEdges();
+  }
+
+  function checkEdges():Void {
+    if (inverted ? bounds.x >= FlxG.width * 2 : bounds.x <= -FlxG.width * 2) {
+      bounds.x = bounds.x + FlxG.width * 2 * (inverted ? -1 : 1);
     }
   }
 }
