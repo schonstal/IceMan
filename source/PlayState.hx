@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.FlxObject;
+import flixel.tweens.FlxTween;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -17,15 +19,19 @@ class PlayState extends FlxState
   var waveController:WaveController;
 
   override public function create():Void {
-    var bg = new FlxSprite();
-    bg.makeGraphic(FlxG.width, FlxG.height, 0xff333333);
+    var bg = new ScrollingBackground();
     add(bg);
 
     player = new Player();
     add(player);
 
     indicator = new FlxSprite();
-    indicator.makeGraphic(Std.int(player.width), Std.int(player.width), 0xffffff00);
+    indicator.loadGraphic("assets/images/playerPointer.png");
+    indicator.width = player.width;
+    indicator.offset.x = player.offset.x;
+    indicator.setFacingFlip(FlxObject.DOWN, false, true);
+    indicator.setFacingFlip(FlxObject.UP, false, false);
+    indicator.alpha = 0;
     add(indicator);
 
     middleBar = new FlxSprite();
@@ -46,6 +52,8 @@ class PlayState extends FlxState
   override public function update():Void {
     FlxG.overlap(player, middleBar, function(p:Player, m:FlxSprite) {
       p.pingPong();
+      FlxTween.tween(indicator, { alpha: 1 }, 0.6);
+      //FlxG.camera.shake(0.01, 0.1);
     });
 
     FlxG.overlap(player, waveController, function(p:Player, e:FlxSprite) {
@@ -55,9 +63,13 @@ class PlayState extends FlxState
     indicator.x = player.x;
     if(player.y < FlxG.height/2) {
       indicator.y = FlxG.height - indicator.height;
+      indicator.facing = FlxObject.DOWN;
     } else {
       indicator.y = 0;
+      indicator.facing = FlxObject.UP;
     }
+
+    if(player.y < -player.height || player.y >= FlxG.height) indicator.alpha = 0;
     super.update();
   }
 }
