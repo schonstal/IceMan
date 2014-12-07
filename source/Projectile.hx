@@ -17,7 +17,9 @@ class Projectile extends FlxSprite
 
   public function new(X:Float=0,Y:Float=100,bounds:FlxObject) {
     super(X,Y);
-    makeGraphic(16,16,0xff00ffff);
+    loadGraphic("assets/images/orb.png", true, 16, 16);
+    animation.add("pulse", [0, 1, 2, 3, 4, 5], 20);
+    animation.play("pulse");
 
     localPosition = new FlxPoint(X,Y);
 
