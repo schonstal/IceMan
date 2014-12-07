@@ -18,7 +18,8 @@ class WaveController extends FlxTypedGroup<Wave>
 {
   var tiles:TiledMap;
 
-  var waveIndex = 0;
+  var waves:Array<Wave> = [];
+  var reverseWaves:Array<Wave> = [];
 
   public function new() {
     super();
@@ -28,17 +29,25 @@ class WaveController extends FlxTypedGroup<Wave>
   } // new()
   
   public function loadObjects() {
+    var index = 0;
     for (group in tiles.objectGroups) {
-      var wave = new Wave();
-      var reverseWave = new Wave(true);
+      var wave = new Wave(false, index);
+      waves.push(wave);
       add(wave);
+
+      var reverseWave = new Wave(true, index);
+      reverseWaves.push(reverseWave);
       add(reverseWave);
 
       for (o in group.objects) {
-        wave.loadObject(o, group, waveIndex);
-        reverseWave.loadObject(o, group, waveIndex);
+        wave.loadObject(o, group);
+        reverseWave.loadObject(o, group);
       }
-      waveIndex++;
+      index++;
     }
   } //loadObjects()
+
+  public override function update():Void {
+    super.update();
+  }
 }

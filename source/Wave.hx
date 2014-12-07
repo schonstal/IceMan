@@ -16,24 +16,27 @@ import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
 
 class Wave extends FlxGroup
 {
-  var bounds:FlxObject;
+  public var bounds:FlxObject;
   var inverted:Bool;
+
+  var index:Int = 0;
 
   public static var SPEED:Float = 100;
 
-  public function new(inverted:Bool = false) {
+  public function new(inverted:Bool, index:Int) {
     super();
 
     this.inverted = inverted;
+    this.index = index;
 
-    bounds = new FlxObject();
+    bounds = new FlxObject(index * FlxG.width);
     bounds.width = FlxG.width;
     bounds.height = FlxG.height;
     bounds.velocity.x = SPEED * (inverted ? 1 : -1);
     FlxG.state.add(bounds);
   } // new()
   
-  public function loadObject(o:TiledObject, g:TiledObjectGroup, windex:Int) {
+  public function loadObject(o:TiledObject, g:TiledObjectGroup) {
     var x:Int = o.x;
     var y:Int = o.y;
 
@@ -43,11 +46,20 @@ class Wave extends FlxGroup
     }
 
     if (inverted) {
-      var projectile = new Projectile(-x - FlxG.width*windex, FlxG.height - y - 16, bounds);
+      var projectile = new Projectile(-x - 16, FlxG.height - y - 16, bounds);
       add(projectile);
     } else {
-      var projectile = new Projectile(FlxG.width + x + FlxG.width*windex, y, bounds);
+      var projectile = new Projectile(FlxG.width + x, y, bounds);
       add(projectile);
+    }
+  }
+
+  public override function update():Void {
+    super.update();
+    if (inverted) {
+      if (bounds.x >= FlxG.width * 2) bounds.x = bounds.x - FlxG.width * 2;
+    } else {
+      if (bounds.x <= -FlxG.width * 2) bounds.x = bounds.x + FlxG.width * 2;
     }
   }
 }
