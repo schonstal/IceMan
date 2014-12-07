@@ -17,14 +17,23 @@ import flixel.math.FlxRandom;
 
 class BackgroundLayer extends FlxSpriteGroup
 {
-  public var depth:Float = 1;
+  public var z:Float = 0;
 
-  public function new() {
+  var sprites:Array<FlxSprite> = [];
+
+  public function new(image:String, Z:Float) {
     super();
+
+    z = Z;
+
+    var bgSprite = new FlxSprite();
+    bgSprite.loadGraphic(image);
+    sprites.push(bgSprite);
+    add(bgSprite);
   }
 
   public override function update():Void {
     super.update();
-    velocity.x = depth * ScrollingBackground.SCROLL_SPEED;
+    velocity.x = z * ScrollingBackground.SCROLL_SPEED;
   }
 }

@@ -22,6 +22,6 @@ class ScrollingBackground extends FlxGroup
   public function new() {
     super();
     
-    add(new BackgroundLayer());
+    add(new BackgroundLayer("assets/images/backgrounds/top/deer.jpg", 1));
   }
 }
