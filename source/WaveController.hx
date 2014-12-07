@@ -34,12 +34,14 @@ class WaveController extends FlxTypedGroup<Wave>
       waves.push(wave);
       add(wave);
 
-      var reverseWave = new Wave(true, i);
+      var reverseWave = new Wave(true, -i);
       reverseWaves.push(reverseWave);
       add(reverseWave);
 
       wave.loadMapObjects(tiles.objectGroups);
       reverseWave.loadMapObjects(tiles.objectGroups);
+      wave.initialize();
+      reverseWave.initialize();
     }
   } //loadObjects()
 

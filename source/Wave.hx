@@ -13,6 +13,8 @@ import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectGroup;
 import flixel.addons.editors.tiled.TiledTileSet;
 import flixel.tile.FlxBaseTilemap.FlxTilemapAutoTiling;
+import flixel.math.FlxRandom;
+
 
 class Wave extends FlxGroup
 {
@@ -20,8 +22,12 @@ class Wave extends FlxGroup
   var inverted:Bool;
 
   var index:Int = 0;
+  var patternIndex:Int = 0;
+  var rng:FlxRandom = new FlxRandom();
 
   public static var SPEED:Float = 100;
+
+  var patterns:Array<FlxGroup> = [];
 
   public function new(inverted:Bool, index:Int) {
     super();
@@ -36,7 +42,7 @@ class Wave extends FlxGroup
     FlxG.state.add(bounds);
   } // new()
   
-  public function loadObject(o:TiledObject, g:TiledObjectGroup) {
+  public function loadObject(o:TiledObject, g:TiledObjectGroup, patternGroup:FlxGroup) {
     var x:Int = o.x;
     var y:Int = o.y;
 
@@ -47,17 +53,20 @@ class Wave extends FlxGroup
 
     if (inverted) {
       var projectile = new Projectile(-x - 16, FlxG.height - y - 16, bounds);
-      add(projectile);
+      patternGroup.add(projectile);
     } else {
       var projectile = new Projectile(FlxG.width + x, y, bounds);
-      add(projectile);
+      patternGroup.add(projectile);
     }
   }
 
   public function loadMapObjects(groups:Array<TiledObjectGroup>):Void {
     for (group in groups) {
+      var patternGroup = new FlxGroup();
+      patterns.push(patternGroup);
+
       for (o in group.objects) {
-        loadObject(o, group);
+        loadObject(o, group, patternGroup);
       }
     }
   }
@@ -75,6 +84,10 @@ class Wave extends FlxGroup
   }
 
   // Reduce, reuse, recycle
-  function initialize():Void {
+  public function initialize():Void {
+    trace("initialized!");
+    remove(patterns[patternIndex]);
+    patternIndex = rng.int(0, patterns.length-1);
+    add(patterns[patternIndex]);
   }
 }
