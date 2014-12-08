@@ -28,7 +28,7 @@ class TimerGroup extends FlxGroup
     add(border);
 
     minutes    = new NumberGroup(X+4,Y+3);
-    seconds    = new NumberGroup(X+34,Y+3);
+    seconds    = new NumberGroup(X+33,Y+3);
     hundredths = new NumberGroup(X+62,Y+3);
 
     add(minutes);
