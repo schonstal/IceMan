@@ -13,4 +13,6 @@ class Reg
 
   // Which color palette to use
   public static var palette:Int = 1;
+
+  public static var patternTest:Int = -1;
 }

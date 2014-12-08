@@ -87,7 +87,7 @@ class Wave extends FlxGroup
   // Reduce, reuse, recycle
   public function initialize():Void {
     remove(patterns[patternIndex]);
-    patternIndex = rng.int(0, patterns.length-1);
+    patternIndex = Reg.patternTest >= 0 ? Reg.patternTest : rng.int(0, patterns.length-1);
     add(patterns[patternIndex]);
   }
 }
