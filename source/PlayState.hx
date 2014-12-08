@@ -10,6 +10,7 @@ import flixel.tweens.FlxTween;
 import flixel.addons.text.FlxBitmapFont;
 import flixel.util.FlxSave;
 import flixel.system.FlxSound;
+import flixel.math.FlxRandom;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -26,6 +27,8 @@ class PlayState extends FlxState
 
   var timerGroup:TimerGroup;
   var highScoreTimer:TimerGroup;
+
+  var rng = new FlxRandom();
 
   var musicSound:FlxSound;
 
@@ -137,12 +140,16 @@ class PlayState extends FlxState
     add(e);
   }
 
-  @:access(flixel.system.FlxSound.time)
+  @:access(flixel.system.FlxSound)
   function startGame():Void {
     FlxG.timeScale = 1;
     FlxG.camera.flash(0xffdddddd, 0.3);
     startTime = Date.now();
-//    musicSound.time = 5000;
+    musicSound.time = Reg.songPositions[Reg.songIndex];
+    if(++Reg.songIndex >= Reg.songPositions.length) {
+      Reg.songIndex = 0;
+      Reg.songPositions = rng.shuffleArray(Reg.songPositions, 20);
+    }
     musicSound.resume();
   }
 

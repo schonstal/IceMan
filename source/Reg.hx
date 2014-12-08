@@ -15,4 +15,7 @@ class Reg
   public static var palette:Int = 1;
 
   public static var patternTest:Int = -1;
+  
+  public static var songPositions:Array<Float> = [0, 21315, 52665, 42652, 9829, 26666];
+  public static var songIndex:Int = 0;
 }
