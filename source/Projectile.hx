@@ -41,7 +41,7 @@ class Projectile extends FlxSprite
     x = localPosition.x + bounds.x;
     y = localPosition.y + bounds.y;
 
-    animation.frameIndex = (pulseFrame + initialFrame) % 5;
+    animation.frameIndex = (pulseFrame + initialFrame) % 6;
   }
 
   public static function updatePulse():Void {
