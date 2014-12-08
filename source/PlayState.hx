@@ -21,6 +21,7 @@ class PlayState extends FlxState
   var waveController:WaveController;
   var startTime:Date;
   var testText:FlxText;
+  var timerGroup:TimerGroup;
 
   override public function create():Void {
     var bg = new ScrollingBackground();
@@ -52,10 +53,10 @@ class PlayState extends FlxState
     waveController = new WaveController();
     add(waveController);
 
-    testText = new FlxText();
-    add(testText);
-
     super.create();
+
+    timerGroup = new TimerGroup();
+    add(timerGroup);
 
     startGame();
   }
@@ -91,8 +92,7 @@ class PlayState extends FlxState
         FlxG.switchState(new PlayState());
       }
     } else {
-      var elapsed = Date.now().getTime() - startTime.getTime();
-      testText.text = "" + Std.int(elapsed / 60000) + ":" + Std.int(elapsed / 1000) + ":" + Std.int((elapsed / 10) % 100);
+      timerGroup.time = Std.int(Date.now().getTime() - startTime.getTime());
     }
   }
 
