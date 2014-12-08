@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.FlxObject;
 import flixel.tweens.FlxTween;
 import flixel.addons.text.FlxBitmapFont;
+import flixel.util.FlxSave;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -21,7 +22,9 @@ class PlayState extends FlxState
   var waveController:WaveController;
   var startTime:Date;
   var testText:FlxText;
+
   var timerGroup:TimerGroup;
+  var highScoreTimer:TimerGroup;
 
   override public function create():Void {
     var bg = new ScrollingBackground();
@@ -62,6 +65,9 @@ class PlayState extends FlxState
     timerGroup = new TimerGroup(FlxG.width/4 - 44, FlxG.height/2 - 7);
     add(timerGroup);
 
+    highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 44, FlxG.height/2 - 7);
+    add(highScoreTimer);
+
     startGame();
   }
   
@@ -70,8 +76,6 @@ class PlayState extends FlxState
   }
 
   override public function update():Void {
-    FlxG.overlap(player, waveController, gameOver);
-
     indicator.x = player.x;
     if(player.y < FlxG.height/2) {
       indicator.y = FlxG.height - indicator.height;
@@ -83,6 +87,8 @@ class PlayState extends FlxState
 
     if(player.y < -player.height || player.y >= FlxG.height) indicator.alpha = 0;
     super.update();
+
+    FlxG.overlap(player, waveController, gameOver);
 
     FlxG.overlap(player, middleBar, function(p:Player, m:FlxSprite) {
       if (p.velocity.y > 0) {
@@ -103,7 +109,7 @@ class PlayState extends FlxState
         FlxG.switchState(new PlayState());
       }
     } else {
-      timerGroup.time = Std.int(Date.now().getTime() - startTime.getTime());
+      updateTime();
     }
   }
 
@@ -124,5 +130,18 @@ class PlayState extends FlxState
     FlxG.timeScale = 1;
     FlxG.camera.flash(0xffdddddd, 0.3);
     startTime = Date.now();
+  }
+
+  function elapsedTime():Int {
+    return Std.int(Date.now().getTime() - startTime.getTime());
+  }
+
+  function updateTime():Void {
+    var elapsed:Int = elapsedTime();
+    timerGroup.time = elapsed;
+    if(Reg.save.data.highScore == null || Reg.save.data.highScore < elapsed) {
+      Reg.save.data.highScore = elapsed;
+    }
+    highScoreTimer.time = Reg.save.data.highScore;
   }
 }
