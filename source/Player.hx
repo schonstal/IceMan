@@ -17,6 +17,7 @@ class Player extends FlxSprite
   public var jumpAmount:Float = 300;
 
   private var bouncable:Bool = true;
+  private var dead:Bool = false;
 
   private var horizontalFacing:Int = FlxObject.RIGHT;
   private var verticalFacing:Int = FlxObject.UP;
@@ -26,12 +27,14 @@ class Player extends FlxSprite
     loadGraphic("assets/images/player.png", true, 16, 16);
     animation.add("up", [0, 2], 15, false);
     animation.add("down", [1], 15, false);
+    animation.add("dead", [0]);
     animation.play("down");
     width = 9;
     offset.x = 3;
+    x = FlxG.width/2 - 4;
 
     height = 14;
-    offset.y = 1;
+    offset.y = 2;
 
 //    acceleration.y = _gravity;
 
@@ -48,13 +51,14 @@ class Player extends FlxSprite
   }
 
   override public function update():Void {
-    checkScreenBounds();
-    processMovementInput();
+    if(!dead) {
+      checkScreenBounds();
+      processMovementInput();
+    }
     facing = horizontalFacing | verticalFacing;
+    offset.y = 2 * (facing & FlxObject.DOWN > 0 ? -1 : 1);
 
     super.update();
-
-    Projectile.updatePulse();
   }
 
   public function pingPong():Void {
@@ -101,5 +105,16 @@ class Player extends FlxSprite
     } else {
       velocity.x = 0;
     }
+  }
+
+  public function die():Void {
+    dead = true;
+    velocity.x = velocity.y = 0;
+    animation.play("dead");
+    FlxG.timeScale = 0.5;
+  }
+
+  public function isAlive():Bool {
+    return !dead;
   }
 }

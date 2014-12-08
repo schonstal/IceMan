@@ -18,22 +18,49 @@ import flixel.math.FlxRandom;
 class BackgroundLayer extends FlxSpriteGroup
 {
   public var z:Float = 0;
+  public var inverted:Bool;
 
-  var sprites:Array<FlxSprite> = [];
+  var activeSprite:FlxSprite;
+  var bufferSprite:FlxSprite;
 
-  public function new(image:String, Z:Float) {
+  public function new(image:String, Z:Float, invert:Bool=false) {
     super();
+
+    inverted = invert;
 
     z = Z;
 
-    var bgSprite = new FlxSprite();
-    bgSprite.loadGraphic(image);
-    sprites.push(bgSprite);
-    add(bgSprite);
+    activeSprite = new FlxSprite(0, invert ? FlxG.width/2 : 0);
+    activeSprite.loadGraphic(image);
+    add(activeSprite);
+
+    bufferSprite = new FlxSprite(activeSprite.width, activeSprite.y);
+    bufferSprite.loadGraphic(image);
+    add(bufferSprite);
+
+    if (invert) {
+      activeSprite.setFacingFlip(FlxObject.DOWN, false, true);
+      bufferSprite.setFacingFlip(FlxObject.DOWN, false, true);
+      activeSprite.facing = FlxObject.DOWN;
+      bufferSprite.facing = FlxObject.DOWN;
+    }
   }
 
   public override function update():Void {
     super.update();
-    velocity.x = z * ScrollingBackground.SCROLL_SPEED;
+
+    activeSprite.velocity.x = z * ScrollingBackground.SCROLL_SPEED * direction();
+
+    if (inverted ? activeSprite.x > FlxG.width : activeSprite.x < -activeSprite.width) {
+      var sprite:FlxSprite = activeSprite;
+      activeSprite = bufferSprite;
+      bufferSprite = sprite;
+    }
+
+    bufferSprite.x = activeSprite.x + (activeSprite.width * direction() * -1);
+  }
+
+  function direction():Int {
+    return inverted ? 1 : -1;
   }
 }

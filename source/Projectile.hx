@@ -28,8 +28,8 @@ class Projectile extends FlxSprite
     loadGraphic("assets/images/orb.png", true, 16, 16);
     animation.add("pulse", [0, 1, 2, 3, 4, 5], 20);
     initialFrame = Y > FlxG.height / 2 ? 0 : 3;
-    width = height = 8;
-    offset.x = offset.y = 4;
+    width = height = 6;
+    offset.x = offset.y = 5;
 
     localPosition = new FlxPoint(X,Y);
 
