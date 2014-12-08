@@ -17,11 +17,15 @@ import flixel.math.FlxRandom;
 
 class ScrollingBackground extends FlxGroup
 {
-  public static var SCROLL_SPEED:Float = 1000;
+  public static var SCROLL_SPEED:Float = 400;
 
-  public function new() {
+  public function new(invert:Bool = false) {
     super();
     
-    add(new BackgroundLayer());
+    add(new BackgroundLayer("assets/images/backgrounds/top/0.png", 0.2, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/top/0.png", 0.4, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/top/0.png", 0.6, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/top/0.png", 0.8, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/top/0.png", 1, invert));
   }
 }

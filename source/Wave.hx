@@ -39,7 +39,8 @@ class Wave extends FlxGroup
     bounds.width = FlxG.width;
     bounds.height = FlxG.height;
     bounds.velocity.x = SPEED * (inverted ? 1 : -1);
-    FlxG.state.add(bounds);
+    bounds.allowCollisions = 0;
+    add(bounds);
   } // new()
   
   public function loadObject(o:TiledObject, g:TiledObjectGroup, patternGroup:FlxGroup) {
