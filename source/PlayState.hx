@@ -27,10 +27,13 @@ class PlayState extends FlxState
 
   var timerGroup:TimerGroup;
   var highScoreTimer:TimerGroup;
+  var activeProjectile:FlxObject;
 
   var rng = new FlxRandom();
 
   var musicSound:FlxSound;
+
+  var indicatorWasVisible:Bool = false;
 
   override public function create():Void {
     var bg = new ScrollingBackground();
@@ -65,9 +68,6 @@ class PlayState extends FlxState
     indicator.offset.x = player.offset.x;
     add(player);
 
-    waveController = new WaveController();
-    add(waveController);
-
     super.create();
 
     timerGroup = new TimerGroup(FlxG.width/4 - 44, FlxG.height/2 - 7);
@@ -92,12 +92,16 @@ class PlayState extends FlxState
     if(player.y < FlxG.height/2) {
       indicator.y = FlxG.height - indicator.height;
       indicator.facing = FlxObject.DOWN;
+      indicator.alpha = (FlxG.height/2 - player.y) / (FlxG.height/2);
     } else {
       indicator.y = 0;
       indicator.facing = FlxObject.UP;
+      indicator.alpha = (player.y - FlxG.height/2) / (FlxG.height/2);
     }
 
-    if(player.y < -player.height || player.y >= FlxG.height) indicator.alpha = 0;
+    if(player.y < -player.height || player.y >= FlxG.height) {
+      indicator.visible = false;
+    }
     super.update();
 
     FlxG.overlap(player, waveController, gameOver);
@@ -110,7 +114,7 @@ class PlayState extends FlxState
       }
 
       p.pingPong();
-      FlxTween.tween(indicator, { alpha: 1 }, 0.6);
+      indicator.visible = true;
       //FlxG.camera.shake(0.01, 0.1);
     });
 
@@ -118,7 +122,8 @@ class PlayState extends FlxState
     Projectile.updatePulse();
     if (!player.isAlive()) {
       if (FlxG.keys.justPressed.SPACE) {
-        FlxG.switchState(new PlayState());
+        startGame();
+        //FlxG.switchState(new PlayState());
       }
     } else {
       updateTime();
@@ -133,17 +138,19 @@ class PlayState extends FlxState
     FlxG.camera.shake(0.02, 0.2);
     player.die();
     remove(waveController);
+    indicatorWasVisible = indicator.visible;
     indicator.visible = false;
     gameOverGroup.show(player.y < FlxG.height/2);
-    musicSound.stop();
+    musicSound.pause();
     FlxG.sound.play("assets/sounds/die.wav");
-    add(e);
+    activeProjectile = e;
+    add(activeProjectile);
   }
 
   @:access(flixel.system.FlxSound)
   function startGame():Void {
+    player.respawn();
     FlxG.timeScale = 1;
-    FlxG.camera.flash(0xffdddddd, 0.3);
     startTime = Date.now();
     musicSound.time = Reg.songPositions[Reg.songIndex];
     if(++Reg.songIndex >= Reg.songPositions.length) {
@@ -151,6 +158,15 @@ class PlayState extends FlxState
       Reg.songPositions = rng.shuffleArray(Reg.songPositions, 20);
     }
     musicSound.resume();
+    gameOverGroup.hide();
+
+    remove(waveController);
+    waveController = new WaveController();
+    add(waveController);
+
+    remove(activeProjectile);
+    activeProjectile = null;
+    indicator.visible = indicatorWasVisible;
   }
 
   function elapsedTime():Int {

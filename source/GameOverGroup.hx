@@ -38,9 +38,15 @@ class GameOverGroup extends FlxSpriteGroup
       tryAgainText.y = FlxG.width * (3/4) - 8;
       tryAgainText.color = 0xfff9c0e6;
     } else {
+      tryAgainText.y = FlxG.width/4 - 8;
       tryAgainText.color = 0xffc2fafa;
     }
     tryAgainText.visible = true;
     FlxTween.tween(overlay, { alpha: 0.6 }, 0.1);
+  }
+
+  public function hide():Void {
+    tryAgainText.visible = false;
+    FlxTween.tween(overlay, { alpha: 0 }, 0.2);
   }
 }
