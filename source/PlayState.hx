@@ -48,8 +48,6 @@ class PlayState extends FlxState
     Reg.save = new FlxSave();
     Reg.save.bind("scores");
 
-    Reg.patternTest = 8;
-
     indicator = new FlxSprite();
     indicator.loadGraphic("assets/images/playerPointer.png");
     indicator.setFacingFlip(FlxObject.DOWN, false, true);
