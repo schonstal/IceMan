@@ -67,12 +67,6 @@ class PlayState extends FlxState
   }
 
   override public function update():Void {
-    FlxG.overlap(player, middleBar, function(p:Player, m:FlxSprite) {
-      p.pingPong();
-      FlxTween.tween(indicator, { alpha: 1 }, 0.6);
-      //FlxG.camera.shake(0.01, 0.1);
-    });
-
     FlxG.overlap(player, waveController, gameOver);
 
     indicator.x = player.x;
@@ -86,6 +80,19 @@ class PlayState extends FlxState
 
     if(player.y < -player.height || player.y >= FlxG.height) indicator.alpha = 0;
     super.update();
+
+    FlxG.overlap(player, middleBar, function(p:Player, m:FlxSprite) {
+      if (p.velocity.y > 0) {
+        p.y = m.y - p.height;
+      } else {
+        p.y = m.y + m.height;
+      }
+
+      p.pingPong();
+      FlxTween.tween(indicator, { alpha: 1 }, 0.6);
+      //FlxG.camera.shake(0.01, 0.1);
+    });
+
 
     Projectile.updatePulse();
     if (!player.isAlive()) {

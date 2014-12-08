@@ -32,6 +32,7 @@ class Player extends FlxSprite
     width = 9;
     offset.x = 3;
     x = FlxG.width/2 - 4;
+    immovable = true;
 
     height = 14;
     offset.y = 2;
