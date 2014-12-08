@@ -18,12 +18,18 @@ class TimerGroup extends FlxGroup
   var seconds:NumberGroup;
   var hundredths:NumberGroup;
 
-  public function new() {
+  var border:FlxSprite;
+
+  public function new(X:Int=0,Y:Int=0) {
     super();
 
-    minutes    = new NumberGroup(10,10);
-    seconds    = new NumberGroup(34,10);
-    hundredths = new NumberGroup(58,10);
+    border = new FlxSprite(X,Y);
+    border.loadGraphic("assets/images/timerBorder.png");
+    add(border);
+
+    minutes    = new NumberGroup(X+4,Y+3);
+    seconds    = new NumberGroup(X+34,Y+3);
+    hundredths = new NumberGroup(X+62,Y+3);
 
     add(minutes);
     add(seconds);
