@@ -36,6 +36,7 @@ class PlayState extends FlxState
   var indicatorWasVisible:Bool = false;
 
   var playerSplash:PlayerSplash;
+  var titleGroup:TitleGroup;
 
   override public function create():Void {
     var bg = new ScrollingBackground();
@@ -44,10 +45,10 @@ class PlayState extends FlxState
     bg = new ScrollingBackground(true);
     add(bg);
 
-    Reg.patternTest = 4;
-
     Reg.save = new FlxSave();
     Reg.save.bind("scores");
+
+//    Reg.patternTest = 7;
 
     indicator = new FlxSprite();
     indicator.loadGraphic("assets/images/playerPointer.png");
@@ -65,6 +66,16 @@ class PlayState extends FlxState
     gameOverGroup = new GameOverGroup();
     add(gameOverGroup);
 
+    timerGroup = new TimerGroup(FlxG.width/4 - 44, FlxG.height/2 - 7);
+    add(timerGroup);
+
+    highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 44, FlxG.height/2 - 7);
+    highScoreTimer.disabled = true;
+    add(highScoreTimer);
+
+    titleGroup = new TitleGroup();
+    add(titleGroup);
+
     player = new Player();
     indicator.width = player.width;
     indicator.offset.x = player.offset.x;
@@ -73,19 +84,10 @@ class PlayState extends FlxState
     add(playerSplash);
     add(player);
 
-    super.create();
-
-    timerGroup = new TimerGroup(FlxG.width/4 - 44, FlxG.height/2 - 7);
-    add(timerGroup);
-
-    highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 44, FlxG.height/2 - 7);
-    highScoreTimer.disabled = true;
-    add(highScoreTimer);
-
     musicSound = FlxG.sound.play("assets/music/mental_health.wav", 1, true);
     musicSound.pause();
 
-    startGame();
+    super.create();
   }
   
   override public function destroy():Void {
@@ -173,6 +175,7 @@ class PlayState extends FlxState
     remove(activeProjectile);
     activeProjectile = null;
     indicator.visible = indicatorWasVisible;
+    titleGroup.hide();
   }
 
   function elapsedTime():Int {
