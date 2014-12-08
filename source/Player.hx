@@ -9,7 +9,9 @@ import flixel.system.FlxSound;
 class Player extends FlxSprite
 {
   public static var SPEED:Float = 150;
-  public static var JUMP_SPEED:Float = 400;
+  public static var JUMP_SPEED:Float = 250;
+
+  var currentFallRate:Float = JUMP_SPEED;
 
   private var _speed:Point;
   private var _gravity:Float = 1200; 
@@ -42,8 +44,6 @@ class Player extends FlxSprite
 //    maxVelocity.y = 500;
     maxVelocity.x = SPEED;
 
-    velocity.y = 250;
-
     setFacingFlip(FlxObject.LEFT | FlxObject.UP, false, false);
     setFacingFlip(FlxObject.RIGHT | FlxObject.UP, true, false);
 
@@ -59,13 +59,15 @@ class Player extends FlxSprite
     facing = horizontalFacing | verticalFacing;
     offset.y = (facing & FlxObject.DOWN > 0 ? 0 : 1);
 
+
+    if (!dead) velocity.y = currentFallRate;
     super.update();
   }
 
   public function pingPong():Void {
     if(bouncable) {
       animation.play("up");
-      velocity.y = -velocity.y;
+      currentFallRate = -currentFallRate;
       FlxG.sound.play("assets/sounds/jump.wav", 0.3);
     }
     bouncable = false;
@@ -114,6 +116,10 @@ class Player extends FlxSprite
     velocity.x = velocity.y = 0;
     animation.play("dead");
     FlxG.timeScale = 0.5;
+  }
+
+  public function respawn():Void {
+    dead = false;
   }
 
   public function isAlive():Bool {
