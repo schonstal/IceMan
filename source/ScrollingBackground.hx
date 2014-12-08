@@ -21,7 +21,12 @@ class ScrollingBackground extends FlxGroup
 
   public function new(invert:Bool = false) {
     super();
+
+    var bgColor:FlxSprite = new FlxSprite(0,invert ? FlxG.height/2 : 0);
+    bgColor.makeGraphic(FlxG.width, FlxG.height, invert ? 0xff230725 : 0xff060c2d);
+    add(bgColor);
     
+    add(new BackgroundLayer("assets/images/backgrounds/top/2.png", 0.4225, invert));
     add(new BackgroundLayer("assets/images/backgrounds/top/1.png", 0.65, invert));
     add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/0.png", 1, invert));
     add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/ground.png", 1.1, invert));
