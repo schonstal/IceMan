@@ -66,7 +66,7 @@ class Player extends FlxSprite
     if(bouncable) {
       animation.play("up");
       velocity.y = -velocity.y;
-      //FlxG.sound.play("assets/sounds/jump.wav");
+      FlxG.sound.play("assets/sounds/jump.wav", 0.3);
     }
     bouncable = false;
   }

@@ -9,6 +9,7 @@ import flixel.FlxObject;
 import flixel.tweens.FlxTween;
 import flixel.addons.text.FlxBitmapFont;
 import flixel.util.FlxSave;
+import flixel.system.FlxSound;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -26,12 +27,16 @@ class PlayState extends FlxState
   var timerGroup:TimerGroup;
   var highScoreTimer:TimerGroup;
 
+  var musicSound:FlxSound;
+
   override public function create():Void {
     var bg = new ScrollingBackground();
     add(bg);
 
     bg = new ScrollingBackground(true);
     add(bg);
+
+    Reg.patternTest = 4;
 
     Reg.save = new FlxSave();
     Reg.save.bind("scores");
@@ -68,6 +73,9 @@ class PlayState extends FlxState
     highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 44, FlxG.height/2 - 7);
     highScoreTimer.disabled = true;
     add(highScoreTimer);
+
+    musicSound = FlxG.sound.play("assets/music/mental_health.wav", 1, true);
+    musicSound.pause();
 
     startGame();
   }
@@ -124,13 +132,18 @@ class PlayState extends FlxState
     remove(waveController);
     indicator.visible = false;
     gameOverGroup.show(player.y < FlxG.height/2);
+    musicSound.stop();
+    FlxG.sound.play("assets/sounds/die.wav");
     add(e);
   }
 
+  @:access(flixel.system.FlxSound.time)
   function startGame():Void {
     FlxG.timeScale = 1;
     FlxG.camera.flash(0xffdddddd, 0.3);
     startTime = Date.now();
+//    musicSound.time = 5000;
+    musicSound.resume();
   }
 
   function elapsedTime():Int {
