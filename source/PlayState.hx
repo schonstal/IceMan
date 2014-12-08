@@ -38,8 +38,9 @@ class PlayState extends FlxState
     add(indicator);
 
     middleBar = new FlxSprite();
-    middleBar.makeGraphic(FlxG.width, 16, 0xffffff00);
-    middleBar.y = FlxG.height/2-8;
+    middleBar.makeGraphic(FlxG.width, 18, 0xffffff00);
+    middleBar.y = FlxG.height/2-9;
+    middleBar.immovable = true;
     add(middleBar);
 
     gameOverGroup = new GameOverGroup();
