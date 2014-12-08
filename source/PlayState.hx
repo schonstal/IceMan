@@ -123,7 +123,7 @@ class PlayState extends FlxState
     player.die();
     remove(waveController);
     indicator.visible = false;
-    gameOverGroup.show();
+    gameOverGroup.show(player.y < FlxG.height/2);
     add(e);
   }
 

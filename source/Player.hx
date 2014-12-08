@@ -29,8 +29,8 @@ class Player extends FlxSprite
     animation.add("down", [1], 15, false);
     animation.add("dead", [0]);
     animation.play("down");
-    width = 9;
-    offset.x = 3;
+    width = 7;
+    offset.x = 4;
     x = FlxG.width/2 - 4;
     immovable = true;
 
