@@ -22,6 +22,7 @@ class ScrollingBackground extends FlxGroup
   public function new(invert:Bool = false) {
     super();
     
+    add(new BackgroundLayer("assets/images/backgrounds/top/1.png", 0.65, invert));
     add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/0.png", 1, invert));
     add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/ground.png", 1.1, invert));
   }

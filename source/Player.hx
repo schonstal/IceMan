@@ -19,13 +19,13 @@ class Player extends FlxSprite
   public var jumpAmount:Float = 300;
 
   private var bouncable:Bool = true;
-  private var dead:Bool = false;
+  private var dead:Bool = true;
 
   private var horizontalFacing:Int = FlxObject.RIGHT;
   private var verticalFacing:Int = FlxObject.UP;
 
-  public function new(X:Float=0,Y:Float=100) {
-    super(X,Y);
+  public function new() {
+    super();
     loadGraphic("assets/images/player.png", true, 16, 16);
     animation.add("up", [0, 2], 15, false);
     animation.add("down", [1], 15, false);
@@ -34,6 +34,7 @@ class Player extends FlxSprite
     width = 7;
     offset.x = 4;
     x = FlxG.width/2 - 4;
+    y = FlxG.width/4 - 7;
     immovable = true;
 
     height = 14;
