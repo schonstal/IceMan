@@ -26,14 +26,14 @@ class TimerGroup extends FlxGroup
     super();
 
     border = new FlxSprite(X,Y);
-    border.loadGraphic("assets/images/timerBorder.png", true, 88, 14);
+    border.loadGraphic("assets/images/timerBorder.png", true, 98, 14);
     border.animation.add("disabled", [1]);
     border.animation.add("enabled", [0]);
     add(border);
 
-    minutes    = new NumberGroup(X+4,Y+3);
-    seconds    = new NumberGroup(X+33,Y+3);
-    hundredths = new NumberGroup(X+62,Y+3);
+    minutes    = new NumberGroup(X+5,Y+3);
+    seconds    = new NumberGroup(X+38,Y+3);
+    hundredths = new NumberGroup(X+71,Y+3);
 
     add(minutes);
     add(seconds);
