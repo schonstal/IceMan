@@ -35,6 +35,8 @@ class PlayState extends FlxState
 
   var indicatorWasVisible:Bool = false;
 
+  var playerSplash:PlayerSplash;
+
   override public function create():Void {
     var bg = new ScrollingBackground();
     add(bg);
@@ -66,6 +68,9 @@ class PlayState extends FlxState
     player = new Player();
     indicator.width = player.width;
     indicator.offset.x = player.offset.x;
+
+    playerSplash = new PlayerSplash(player);
+    add(playerSplash);
     add(player);
 
     super.create();
@@ -114,6 +119,7 @@ class PlayState extends FlxState
       }
 
       p.pingPong();
+      playerSplash.splash();
       indicator.visible = true;
       //FlxG.camera.shake(0.01, 0.1);
     });
