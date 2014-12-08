@@ -23,6 +23,6 @@ class GameOverGroup extends FlxSpriteGroup
   }
 
   public function show() {
-    FlxTween.tween(overlay, { alpha: 0.8 }, 0.2);
+    FlxTween.tween(overlay, { alpha: 0.6 }, 0.1);
   }
 }

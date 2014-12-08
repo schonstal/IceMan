@@ -20,7 +20,7 @@ class TimerGroup extends FlxGroup
 
   var border:FlxSprite;
 
-  public function new(X:Int=0,Y:Int=0) {
+  public function new(X:Float=0,Y:Float=0) {
     super();
 
     border = new FlxSprite(X,Y);

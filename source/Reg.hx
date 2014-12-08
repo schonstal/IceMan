@@ -9,7 +9,7 @@ import flixel.util.FlxSave;
  */
 class Reg
 {
-  public static var saves:Array<FlxSave> = [];
+  public static var save:FlxSave;
 
   // Which color palette to use
   public static var palette:Int = 1;

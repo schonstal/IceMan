@@ -30,17 +30,19 @@ class BackgroundLayer extends FlxSpriteGroup
 
     z = Z;
 
-    activeSprite = new FlxSprite(0, invert ? FlxG.width/2 : 0);
+    activeSprite = new FlxSprite(0, invert ? FlxG.height/2 : 0);
     activeSprite.loadGraphic(image);
+    if (!invert) activeSprite.y = FlxG.height/2 - activeSprite.height;
     add(activeSprite);
 
     bufferSprite = new FlxSprite(activeSprite.width, activeSprite.y);
     bufferSprite.loadGraphic(image);
+    if (!invert) bufferSprite.y = FlxG.height/2 - bufferSprite.height;
     add(bufferSprite);
 
     if (invert) {
-      activeSprite.setFacingFlip(FlxObject.DOWN, false, true);
-      bufferSprite.setFacingFlip(FlxObject.DOWN, false, true);
+      activeSprite.setFacingFlip(FlxObject.DOWN, true, true);
+      bufferSprite.setFacingFlip(FlxObject.DOWN, true, true);
       activeSprite.facing = FlxObject.DOWN;
       bufferSprite.facing = FlxObject.DOWN;
     }

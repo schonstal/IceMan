@@ -57,7 +57,7 @@ class Player extends FlxSprite
       processMovementInput();
     }
     facing = horizontalFacing | verticalFacing;
-    offset.y = 2 * (facing & FlxObject.DOWN > 0 ? -1 : 1);
+    offset.y = (facing & FlxObject.DOWN > 0 ? 0 : 1);
 
     super.update();
   }
