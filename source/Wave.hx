@@ -53,7 +53,7 @@ class Wave extends FlxGroup
     }
 
     if (inverted) {
-      var projectile = new Projectile(-x - 16, FlxG.height - y - 16, bounds);
+      var projectile = new Projectile(-x - 16, FlxG.height - y - 16 + 9, bounds);
       patternGroup.add(projectile);
     } else {
       var projectile = new Projectile(FlxG.width + x, y, bounds);
