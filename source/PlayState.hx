@@ -34,7 +34,7 @@ class PlayState extends FlxState
     add(bg);
 
     Reg.save = new FlxSave();
-    Reg.save.bind("score");
+    Reg.save.bind("scores");
 
     indicator = new FlxSprite();
     indicator.loadGraphic("assets/images/playerPointer.png");
@@ -66,6 +66,7 @@ class PlayState extends FlxState
     add(timerGroup);
 
     highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 44, FlxG.height/2 - 7);
+    highScoreTimer.disabled = true;
     add(highScoreTimer);
 
     startGame();
@@ -141,6 +142,7 @@ class PlayState extends FlxState
     timerGroup.time = elapsed;
     if(Reg.save.data.highScore == null || Reg.save.data.highScore < elapsed) {
       Reg.save.data.highScore = elapsed;
+      highScoreTimer.disabled = false;
     }
     highScoreTimer.time = Reg.save.data.highScore;
   }
