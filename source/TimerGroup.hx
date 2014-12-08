@@ -20,11 +20,15 @@ class TimerGroup extends FlxGroup
 
   var border:FlxSprite;
 
+  public var disabled:Bool = false;
+
   public function new(X:Float=0,Y:Float=0) {
     super();
 
     border = new FlxSprite(X,Y);
-    border.loadGraphic("assets/images/timerBorder.png");
+    border.loadGraphic("assets/images/timerBorder.png", true, 88, 14);
+    border.animation.add("disabled", [1]);
+    border.animation.add("enabled", [0]);
     add(border);
 
     minutes    = new NumberGroup(X+4,Y+3);
@@ -40,6 +44,9 @@ class TimerGroup extends FlxGroup
     minutes.number    = Std.int(time / 60000);
     seconds.number    = Std.int((time / 1000) % 60);
     hundredths.number = Std.int((time / 10) % 100);
+
+    minutes.disabled = seconds.disabled = hundredths.disabled = disabled;
+    border.animation.play(disabled ? "disabled" : "enabled");
 
     super.update();
   }

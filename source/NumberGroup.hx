@@ -15,23 +15,24 @@ class NumberGroup extends FlxSpriteGroup
 
   var ones:FlxSprite;
   var tens:FlxSprite;
+  public var disabled:Bool = false;
 
   public function new(X:Float,Y:Float) {
     super();
     ones = new FlxSprite(X+12,Y);
     ones.loadGraphic("assets/images/numbers.png", true, 10, 8);
-    ones.animation.add("numbers", [0,1,2,3,4,5,6,7,8,9], 1);
+    //ones.animation.add("numbers", [0,1,2,3,4,5,6,7,8,9], 1);
     add(ones);
 
     tens = new FlxSprite(X,Y);
     tens.loadGraphic("assets/images/numbers.png", true, 10, 8);
-    tens.animation.add("numbers", [0,1,2,3,4,5,6,7,8,9], 1);
+    //tens.animation.add("numbers", [0,1,2,3,4,5,6,7,8,9], 1);
     add(tens);
   }
 
   override public function update():Void {
     super.update();
-    ones.animation.frameIndex = number % 10; 
-    tens.animation.frameIndex = Std.int(number / 10);
+    ones.animation.frameIndex = number % 10 + (disabled ? 10 : 0);
+    tens.animation.frameIndex = Std.int(number / 10) + (disabled ? 10 : 0);
   }
 }
