@@ -30,6 +30,9 @@ class PlayState extends FlxState
     bg = new ScrollingBackground(true);
     add(bg);
 
+    Reg.save = new FlxSave();
+    Reg.save.bind("score");
+
     indicator = new FlxSprite();
     indicator.loadGraphic("assets/images/playerPointer.png");
     indicator.setFacingFlip(FlxObject.DOWN, false, true);
@@ -38,7 +41,7 @@ class PlayState extends FlxState
     add(indicator);
 
     middleBar = new FlxSprite();
-    middleBar.makeGraphic(FlxG.width, 18, 0xffffff00);
+    middleBar.makeGraphic(FlxG.width, 18, 0x00);
     middleBar.y = FlxG.height/2-9;
     middleBar.immovable = true;
     add(middleBar);
@@ -56,7 +59,7 @@ class PlayState extends FlxState
 
     super.create();
 
-    timerGroup = new TimerGroup();
+    timerGroup = new TimerGroup(FlxG.width/4 - 44, FlxG.height/2 - 7);
     add(timerGroup);
 
     startGame();

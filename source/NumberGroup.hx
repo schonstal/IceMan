@@ -16,7 +16,7 @@ class NumberGroup extends FlxSpriteGroup
   var ones:FlxSprite;
   var tens:FlxSprite;
 
-  public function new(X,Y) {
+  public function new(X:Float,Y:Float) {
     super();
     ones = new FlxSprite(X+12,Y);
     ones.loadGraphic("assets/images/numbers.png", true, 10, 8);
