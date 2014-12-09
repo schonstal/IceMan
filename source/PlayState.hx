@@ -11,6 +11,7 @@ import flixel.addons.text.FlxBitmapFont;
 import flixel.util.FlxSave;
 import flixel.system.FlxSound;
 import flixel.math.FlxRandom;
+import flash.display.BlendMode;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -37,6 +38,7 @@ class PlayState extends FlxState
 
   var playerSplash:PlayerSplash;
   var titleGroup:TitleGroup;
+  var overlay:FlxSprite;
 
   override public function create():Void {
     var bg = new ScrollingBackground();
@@ -88,6 +90,10 @@ class PlayState extends FlxState
     musicSound = FlxG.sound.play("assets/music/mental_health.wav", 1, true);
     musicSound.pause();
 
+    overlay = new FlxSprite();
+    overlay.loadGraphic("assets/images/gradient.png");
+    overlay.blend = BlendMode.HARDLIGHT;
+    add(overlay);
     super.create();
   }
   
