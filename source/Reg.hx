@@ -21,4 +21,6 @@ class Reg
 
   public static var difficultyMin:Int = 0;
   public static var difficultyMax:Int = 0;
+
+  public static var apiInitialized:Bool = false;
 }

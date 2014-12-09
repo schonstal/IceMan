@@ -12,6 +12,7 @@ import flixel.util.FlxSave;
 import flixel.system.FlxSound;
 import flixel.math.FlxRandom;
 import flash.display.BlendMode;
+import flixel.addons.api.FlxKongregate;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -44,7 +45,14 @@ class PlayState extends FlxState
   var hyperMode:Bool = false;
   var elapsed:Int = 0;
 
+  var hyperGlyph:FlxSprite;
+
   override public function create():Void {
+    if (!Reg.apiInitialized) {
+      FlxKongregate.init(function():Void {
+        Reg.apiInitialized = true;
+      });
+    }
     Reg.difficultyMin = 0;
     Reg.difficultyMax = 1;
 
@@ -76,15 +84,22 @@ class PlayState extends FlxState
     gameOverGroup = new GameOverGroup();
     add(gameOverGroup);
 
-    timerGroup = new TimerGroup(FlxG.width/4 - 44, FlxG.height/2 - 7);
+    timerGroup = new TimerGroup(FlxG.width/4 - 54, FlxG.height/2 - 7);
     add(timerGroup);
 
-    highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 44, FlxG.height/2 - 7);
+    highScoreTimer = new TimerGroup(FlxG.width * (3/4) - 45, FlxG.height/2 - 7);
     highScoreTimer.disabled = true;
     add(highScoreTimer);
 
     titleGroup = new TitleGroup();
     add(titleGroup);
+
+    hyperGlyph = new FlxSprite();
+    hyperGlyph.loadGraphic("assets/images/hyper.png");
+    hyperGlyph.x = FlxG.width/2 - hyperGlyph.width/2;
+    hyperGlyph.y = FlxG.height/2 - hyperGlyph.height/2;
+    hyperGlyph.visible = false;
+    add(hyperGlyph);
 
     player = new Player();
     indicator.width = player.width;
@@ -154,35 +169,46 @@ class PlayState extends FlxState
       }
       if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN || FlxG.keys.justPressed.W || FlxG.keys.justPressed.S) {
         hyperMode = !hyperMode;
+        if(hyperMode) {
+          FlxG.sound.play("assets/sounds/hyperOn.wav");
+        } else {
+          FlxG.sound.play("assets/sounds/hyperOff.wav");
+        }
       }
     }
 
     updateTime();
     adjustDifficulty();
+
+    if (hyperMode) {
+      hyperGlyph.visible = true;
+    } else {
+      hyperGlyph.visible = false;
+    }
   }
 
   private function adjustDifficulty():Void {
     if (hyperMode) {
-      Reg.difficultyMin = 3;
+      Reg.difficultyMin = 2;
       Reg.difficultyMax = 4;
     } else {
       if (elapsed > 5000) {
         Reg.difficultyMin = 1;
         Reg.difficultyMax = 1;
       }
-      if (elapsed > 15000) {
+      if (elapsed > 10000) {
         Reg.difficultyMax = 2;
       }
-      if (elapsed > 30000) {
+      if (elapsed > 20000) {
         Reg.difficultyMax = 3;
       }
-      if (elapsed > 45000) {
+      if (elapsed > 30000) {
         Reg.difficultyMin = 2;
       }
-      if (elapsed > 60000) {
+      if (elapsed > 45000) {
         Reg.difficultyMax = 4;
       }
-      if (elapsed > 90000) {
+      if (elapsed > 60000) {
         Reg.difficultyMin = 3;
       }
     }
@@ -203,12 +229,20 @@ class PlayState extends FlxState
     FlxG.sound.play("assets/sounds/die.wav");
     activeProjectile = e;
     add(activeProjectile);
+
+    if (Reg.apiInitialized) {
+      if(!hyperMode) {
+        FlxKongregate.submitStats("Time Survived (Normal)", elapsed);
+      } else {
+        FlxKongregate.submitStats("Time Survived (Hyper)", elapsed);
+      }
+    }
   }
 
   @:access(flixel.system.FlxSound)
   function startGame():Void {
     if (hyperMode) {
-      Reg.difficultyMin = 3;
+      Reg.difficultyMin = 2;
       Reg.difficultyMax = 4;
     } else {
       Reg.difficultyMin = 0;
