@@ -168,12 +168,15 @@ class PlayState extends FlxState
     } else {
       if (elapsed > 5000) {
         Reg.difficultyMin = 1;
+        Reg.difficultyMax = 1;
+      }
+      if (elapsed > 15000) {
         Reg.difficultyMax = 2;
       }
-      if (elapsed > 20000) {
+      if (elapsed > 30000) {
         Reg.difficultyMax = 3;
       }
-      if (elapsed > 40000) {
+      if (elapsed > 45000) {
         Reg.difficultyMin = 2;
       }
       if (elapsed > 60000) {
@@ -181,9 +184,6 @@ class PlayState extends FlxState
       }
       if (elapsed > 90000) {
         Reg.difficultyMin = 3;
-      }
-      if (elapsed > 120000) {
-        Reg.difficultyMin = 4;
       }
     }
   }
@@ -207,6 +207,14 @@ class PlayState extends FlxState
 
   @:access(flixel.system.FlxSound)
   function startGame():Void {
+    if (hyperMode) {
+      Reg.difficultyMin = 3;
+      Reg.difficultyMax = 4;
+    } else {
+      Reg.difficultyMin = 0;
+      Reg.difficultyMax = 1;
+    }
+
     player.respawn();
     FlxG.timeScale = 1;
     startTime = Date.now();

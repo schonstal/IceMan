@@ -15,8 +15,8 @@ import flash.display.BlendMode;
 class TitleGroup extends FlxSpriteGroup
 {
   var overlay:FlxSprite;
+  var title:FlxSprite;
   var beginText:FlxText;
-  var titleText:FlxText;
 
   public function new() {
     super();
@@ -25,15 +25,11 @@ class TitleGroup extends FlxSpriteGroup
     overlay.alpha = 0.6;
     add(overlay);
 
-    titleText = new FlxText();
-    titleText = new FlxText(0, 0, FlxG.width);
-    titleText.y = FlxG.width/4 - 8;
-    titleText.setFormat("assets/fonts/04b03.ttf");
-    titleText.size = 16;
-    titleText.color = 0xfff9c0e6;
-    titleText.alignment = "center";
-    titleText.text = "GAME NAME";
-    //add(titleText);
+    title = new FlxSprite();
+    title.loadGraphic("assets/images/title.png");
+    title.x = FlxG.width/2 - title.width/2;
+    title.y = FlxG.height/4 - title.height/2;
+    add(title);
 
     beginText = new FlxText();
     beginText = new FlxText(0, 0, FlxG.width);
@@ -48,7 +44,7 @@ class TitleGroup extends FlxSpriteGroup
 
   public function hide():Void {
     beginText.visible = false;
-    titleText.visible = false;
+    title.visible = false;
     FlxTween.tween(overlay, { alpha: 0 }, 0.2);
   }
 }
