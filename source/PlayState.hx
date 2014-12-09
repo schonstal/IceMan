@@ -39,8 +39,15 @@ class PlayState extends FlxState
   var playerSplash:PlayerSplash;
   var titleGroup:TitleGroup;
   var overlay:FlxSprite;
+  var inverter:FlxSprite;
+
+  var hyperMode:Bool = false;
+  var elapsed:Int = 0;
 
   override public function create():Void {
+    Reg.difficultyMin = 0;
+    Reg.difficultyMax = 1;
+
     var bg = new ScrollingBackground();
     add(bg);
 
@@ -94,6 +101,11 @@ class PlayState extends FlxState
     overlay.loadGraphic("assets/images/gradient.png");
     overlay.blend = BlendMode.HARDLIGHT;
     add(overlay);
+
+    inverter = new FlxSprite();
+    inverter.makeGraphic(FlxG.width, FlxG.height, 0xffffffff);
+    inverter.blend = BlendMode.INVERT;
+
     super.create();
   }
   
@@ -140,8 +152,39 @@ class PlayState extends FlxState
         startGame();
         //FlxG.switchState(new PlayState());
       }
+      if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN || FlxG.keys.justPressed.W || FlxG.keys.justPressed.S) {
+        hyperMode = !hyperMode;
+      }
+    }
+
+    updateTime();
+    adjustDifficulty();
+  }
+
+  private function adjustDifficulty():Void {
+    if (hyperMode) {
+      Reg.difficultyMin = 3;
+      Reg.difficultyMax = 4;
     } else {
-      updateTime();
+      if (elapsed > 5000) {
+        Reg.difficultyMin = 1;
+        Reg.difficultyMax = 2;
+      }
+      if (elapsed > 20000) {
+        Reg.difficultyMax = 3;
+      }
+      if (elapsed > 40000) {
+        Reg.difficultyMin = 2;
+      }
+      if (elapsed > 60000) {
+        Reg.difficultyMax = 4;
+      }
+      if (elapsed > 90000) {
+        Reg.difficultyMin = 3;
+      }
+      if (elapsed > 120000) {
+        Reg.difficultyMin = 4;
+      }
     }
   }
 
@@ -185,17 +228,33 @@ class PlayState extends FlxState
     titleGroup.hide();
   }
 
+  override public function draw():Void {
+    super.draw();
+    if (hyperMode) inverter.draw();
+  }
+
   function elapsedTime():Int {
     return Std.int(Date.now().getTime() - startTime.getTime());
   }
 
   function updateTime():Void {
-    var elapsed:Int = elapsedTime();
-    timerGroup.time = elapsed;
-    if(Reg.save.data.highScore == null || Reg.save.data.highScore < elapsed) {
-      Reg.save.data.highScore = elapsed;
-      highScoreTimer.disabled = false;
+    if (player.isAlive()) {
+      elapsed = elapsedTime();
     }
-    highScoreTimer.time = Reg.save.data.highScore;
+    timerGroup.time = elapsed;
+
+    if (hyperMode) {
+      if(Reg.save.data.highScoreHyper == null || Reg.save.data.highScoreHyper < elapsed) {
+        Reg.save.data.highScoreHyper = elapsed;
+        highScoreTimer.disabled = false;
+      }
+      highScoreTimer.time = Reg.save.data.highScoreHyper;
+    } else {
+      if(Reg.save.data.highScore == null || Reg.save.data.highScore < elapsed) {
+        Reg.save.data.highScore = elapsed;
+        highScoreTimer.disabled = false;
+      }
+      highScoreTimer.time = Reg.save.data.highScore;
+    }
   }
 }

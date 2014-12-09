@@ -18,4 +18,7 @@ class Reg
   
   public static var songPositions:Array<Float> = [0, 21315, 52665, 42652, 9829, 26666];
   public static var songIndex:Int = 0;
+
+  public static var difficultyMin:Int = 0;
+  public static var difficultyMax:Int = 0;
 }

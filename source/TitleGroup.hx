@@ -10,6 +10,7 @@ import flixel.math.FlxRandom;
 import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxTween;
 import flixel.text.FlxText;
+import flash.display.BlendMode;
 
 class TitleGroup extends FlxSpriteGroup
 {
