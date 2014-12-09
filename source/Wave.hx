@@ -23,11 +23,13 @@ class Wave extends FlxGroup
 
   var index:Int = 0;
   var patternIndex:Int = 0;
+  var difficultyIndex:Int = 0;
+
   var rng:FlxRandom = new FlxRandom();
 
   public static var SPEED:Float = 100;
 
-  var patterns:Array<FlxGroup> = [];
+  var patternGroups:Array<Array<FlxGroup>> = [[],[],[],[],[]];
 
   public function new(inverted:Bool, index:Int) {
     super();
@@ -64,7 +66,9 @@ class Wave extends FlxGroup
   public function loadMapObjects(groups:Array<TiledObjectGroup>):Void {
     for (group in groups) {
       var patternGroup = new FlxGroup();
-      patterns.push(patternGroup);
+      var difficulty:Int = Std.parseInt(group.properties.get("difficulty"));
+      
+      patternGroups[difficulty].push(patternGroup);
 
       for (o in group.objects) {
         loadObject(o, group, patternGroup);
@@ -86,8 +90,9 @@ class Wave extends FlxGroup
 
   // Reduce, reuse, recycle
   public function initialize():Void {
-    remove(patterns[patternIndex]);
-    patternIndex = Reg.patternTest >= 0 ? Reg.patternTest : rng.int(0, patterns.length-1);
-    add(patterns[patternIndex]);
+    remove(patternGroups[difficultyIndex][patternIndex]);
+    patternIndex = rng.int(0, patternGroups[difficultyIndex].length-1);
+    difficultyIndex = rng.int(Reg.difficultyMin, Reg.difficultyMax);
+    add(patternGroups[difficultyIndex][patternIndex]);
   }
 }

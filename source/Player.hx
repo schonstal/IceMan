@@ -33,8 +33,8 @@ class Player extends FlxSprite
     animation.play("down");
     width = 7;
     offset.x = 4;
-    x = FlxG.width/2 - 4;
-    y = FlxG.width/4 - 7;
+    x = FlxG.width/2 - 6;
+    y = FlxG.width/4 - 8;
     immovable = true;
 
     height = 14;
