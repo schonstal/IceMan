@@ -26,9 +26,10 @@ class ScrollingBackground extends FlxGroup
     bgColor.makeGraphic(FlxG.width, FlxG.height, invert ? 0xff230725 : 0xff060c2d);
     add(bgColor);
     
-    add(new BackgroundLayer("assets/images/backgrounds/top/2.png", 0.4225, invert));
-    add(new BackgroundLayer("assets/images/backgrounds/top/1.png", 0.65, invert));
     add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/0.png", 1, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/1.png", 0.65, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/2.png", 0.425, invert));
+    add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/3.png", 0.2, invert));
     add(new BackgroundLayer("assets/images/backgrounds/" + (invert ? "bottom" : "top") + "/ground.png", 1.1, invert));
   }
 }

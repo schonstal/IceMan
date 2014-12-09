@@ -18,6 +18,9 @@
   <object x="288" y="96" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="D0-2" width="20" height="10" visible="0">
+  <properties>
+   <property name="difficulty" value="0"/>
+  </properties>
   <object x="80" y="48" width="16" height="16"/>
   <object x="224" y="80" width="16" height="16"/>
  </objectgroup>
@@ -53,6 +56,19 @@
   <object x="176" y="112" width="16" height="16"/>
   <object x="16" y="112" width="16" height="16"/>
  </objectgroup>
+ <objectgroup name="D2-0" width="20" height="10">
+  <properties>
+   <property name="difficulty" value="2"/>
+  </properties>
+  <object x="32" y="64" width="16" height="16"/>
+  <object x="112" y="96" width="16" height="16"/>
+  <object x="160" y="48" width="16" height="16"/>
+  <object x="272" y="64" width="16" height="16"/>
+  <object x="304" y="112" width="16" height="16"/>
+  <object x="0" y="112" width="16" height="16"/>
+  <object x="144" y="48" width="16" height="16"/>
+  <object x="192" y="96" width="16" height="16"/>
+ </objectgroup>
  <objectgroup name="D2-1" width="20" height="10" visible="0">
   <properties>
    <property name="difficulty" value="2"/>
@@ -83,7 +99,10 @@
   <object x="272" y="48" width="16" height="16"/>
   <object x="304" y="112" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="D2-3" width="20" height="10">
+ <objectgroup name="D2-3" width="20" height="10" visible="0">
+  <properties>
+   <property name="difficulty" value="2"/>
+  </properties>
   <object x="16" y="32" width="16" height="16"/>
   <object x="64" y="128" width="16" height="16"/>
   <object x="144" y="96" width="16" height="16"/>
@@ -156,5 +175,25 @@
   <object x="224" y="112" width="16" height="16"/>
   <object x="160" y="112" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Object Layer 10" width="20" height="10" visible="0"/>
+ <objectgroup name="D4-1" width="20" height="10" visible="0">
+  <properties>
+   <property name="difficulty" value="4"/>
+  </properties>
+  <object x="240" y="96" width="16" height="16"/>
+  <object x="96" y="32" width="16" height="16"/>
+  <object x="128" y="64" width="16" height="16"/>
+  <object x="32" y="128" width="16" height="16"/>
+  <object x="272" y="128" width="16" height="16"/>
+  <object x="64" y="96" width="16" height="16"/>
+  <object x="208" y="32" width="16" height="16"/>
+  <object x="80" y="128" width="16" height="16"/>
+  <object x="144" y="96" width="16" height="16"/>
+  <object x="160" y="96" width="16" height="16"/>
+  <object x="224" y="128" width="16" height="16"/>
+  <object x="176" y="64" width="16" height="16"/>
+  <object x="0" y="80" width="16" height="16"/>
+  <object x="304" y="80" width="16" height="16"/>
+  <object x="32" y="48" width="16" height="16"/>
+  <object x="272" y="48" width="16" height="16"/>
+ </objectgroup>
 </map>
