@@ -49,9 +49,9 @@ class PlayState extends FlxState
 
   override public function create():Void {
     if (!Reg.apiInitialized) {
-      FlxKongregate.init(function():Void {
-        Reg.apiInitialized = true;
-      });
+      //FlxKongregate.init(function():Void {
+        //Reg.apiInitialized = true;
+      //});
     }
     Reg.difficultyMin = 0;
     Reg.difficultyMax = 1;
@@ -120,6 +120,8 @@ class PlayState extends FlxState
     inverter = new FlxSprite();
     inverter.makeGraphic(FlxG.width, FlxG.height, 0xffffffff);
     inverter.blend = BlendMode.INVERT;
+
+    FlxG.timeScale = 0.5;
 
     super.create();
   }
@@ -232,9 +234,9 @@ class PlayState extends FlxState
 
     if (Reg.apiInitialized) {
       if(!hyperMode) {
-        FlxKongregate.submitStats("Time Survived (Normal)", elapsed);
+        FlxKongregate.submitStats("Time Survived (Normal)", elapsed/1000);
       } else {
-        FlxKongregate.submitStats("Time Survived (Hyper)", elapsed);
+        FlxKongregate.submitStats("Time Survived (Hyper)", elapsed/1000);
       }
     }
   }
@@ -267,6 +269,7 @@ class PlayState extends FlxState
     remove(activeProjectile);
     activeProjectile = null;
     indicator.visible = indicatorWasVisible;
+    highScoreTimer.disabled = true;
     titleGroup.hide();
   }
 
