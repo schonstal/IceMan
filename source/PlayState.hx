@@ -45,16 +45,17 @@ class PlayState extends FlxState
     bg = new ScrollingBackground(true);
     add(bg);
 
+//    Reg.patternTest = 5;
+
     Reg.save = new FlxSave();
     Reg.save.bind("scores");
-
-//    Reg.patternTest = 7;
 
     indicator = new FlxSprite();
     indicator.loadGraphic("assets/images/playerPointer.png");
     indicator.setFacingFlip(FlxObject.DOWN, false, true);
     indicator.setFacingFlip(FlxObject.UP, false, false);
     indicator.alpha = 0;
+    indicator.visible = false;
     add(indicator);
 
     middleBar = new FlxSprite();
